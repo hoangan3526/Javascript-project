@@ -51,7 +51,7 @@ function Modal(){
         });
         // Disable scroolling 
         document.body.classList.add('not-scrooling');
-        document.body.style.paddingRight= getScroollbarWidth() + "px";
+        document.body.style.paddingRight(getScroollbarWidth() + "px");
         return backdrop;
       
     };
@@ -63,7 +63,7 @@ function Modal(){
 
         //Enable scrooling
         document.body.classList.remove('not-scrooling');
-        document.body.style.paddingRight = "" ;
+        document.body.style.paddingRight("");
     }
     
 }
@@ -111,3 +111,4 @@ function getScroollbarWidth(){
     return scrollbarWidth;
 }
 
+console.log(getScroollbarWidth());

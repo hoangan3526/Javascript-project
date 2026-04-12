@@ -111,3 +111,4 @@ function getScroollbarWidth(){
     return scrollbarWidth;
 }
 
+console.log(getScroollbarWidth());
