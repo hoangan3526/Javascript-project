@@ -3,11 +3,12 @@ const $$ = document.querySelectorAll.bind(document);
 
 
 function Modal(){
-    
+    let getscroolBar ;
     function getScroollbarWidth(){
-        if (getScroollbarWidth.value){
+        if (getscroolBar){
             console.log("gia tri da da ghi nhan sau lan dau tien");
             return;
+            
         }
     const div = document.createElement('div');
     Object.assign(div.style,{
@@ -19,7 +20,7 @@ function Modal(){
     document.body.appendChild(div);
 
     const scrollbarWidth = div.offsetWidth - div.clientWidth ;
-    getScroollbarWidth.value = scrollbarWidth;
+    getscroolBar = scrollbarWidth;
     document.body.removeChild(div);
     return scrollbarWidth;
     }

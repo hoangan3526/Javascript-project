@@ -3,26 +3,6 @@ const $$ = document.querySelectorAll.bind(document);
 
 
 function Modal(){
-    
-    function getScroollbarWidth(){
-        if (getScroollbarWidth.value){
-            console.log("gia tri da da ghi nhan sau lan dau tien");
-            return;
-        }
-    const div = document.createElement('div');
-    Object.assign(div.style,{
-        overflow: "scroll" ,
-        position: "absolute",
-        top: "-9999px"
-    });
-
-    document.body.appendChild(div);
-
-    const scrollbarWidth = div.offsetWidth - div.clientWidth ;
-    getScroollbarWidth.value = scrollbarWidth;
-    document.body.removeChild(div);
-    return scrollbarWidth;
-    }
     this.openModal = (options = {} ) =>{
         const {templateId , unblockModal = true} = options ;
         const template = $(`#${templateId}`);
