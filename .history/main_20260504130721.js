@@ -14,12 +14,12 @@ function Modal(options = {}) {
         this._allowEscapeClose = closeMethods.includes("escape");
         this._allowBackdropClose = closeMethods.includes("overlay");
         this._allowButtonClose = closeMethods.includes("button");
-        this.addfooterButton = (title , cssClasses , callback) =>{
+        this.addfooterButton = (title , classnames , callback) =>{
 
             this._footerbuttons.push({
-                title : title ,
-                cssClasses : cssClasses,
-                callback : callback,
+                title,
+                classnames,
+                callback
             });
         };
     function getScrollbarWidth() {
@@ -80,7 +80,7 @@ function Modal(options = {}) {
 
             this._footerbuttons.forEach(btnConfig => {
                const btn = document.createElement("button");
-               btn.innerHTML = btnConfig.title  ;
+               btn.innerHTML = this._footerbuttons.title ;
 
                // Gán class (Kiểm tra kỹ lỡ người dùng truyền chuỗi rỗng)
                 if (btnConfig.cssClasses && btnConfig.cssClasses.trim() !== "") {

@@ -14,12 +14,12 @@ function Modal(options = {}) {
         this._allowEscapeClose = closeMethods.includes("escape");
         this._allowBackdropClose = closeMethods.includes("overlay");
         this._allowButtonClose = closeMethods.includes("button");
-        this.addfooterButton = (title , cssClasses , callback) =>{
+        this.addfooterButton = (title , classnames , callback) =>{
 
             this._footerbuttons.push({
-                title : title ,
-                cssClasses : cssClasses,
-                callback : callback,
+                title,
+                classnames,
+                callback
             });
         };
     function getScrollbarWidth() {
@@ -80,7 +80,7 @@ function Modal(options = {}) {
 
             this._footerbuttons.forEach(btnConfig => {
                const btn = document.createElement("button");
-               btn.innerHTML = btnConfig.title  ;
+               btn.innerHTML = this._footerbuttons.title ;
 
                // Gán class (Kiểm tra kỹ lỡ người dùng truyền chuỗi rỗng)
                 if (btnConfig.cssClasses && btnConfig.cssClasses.trim() !== "") {
@@ -228,13 +228,13 @@ const modal3 = new Modal({
 });
 
 // Thêm nút Hủy
-modal3.addfooterButton('Cancel', 'btn btn-secondary', (e) => {
+modal3.addFooterButton('Cancel', 'btn btn-secondary', (e) => {
     console.log("Bạn vừa bấm nút Hủy bỏ!");
     modal3.close(); // Thường nút Cancel sẽ gọi lệnh đóng Modal
 });
 
 // Thêm nút Đồng ý
-modal3.addfooterButton('Agree', 'btn btn-primary', (e) => {
+modal3.addFooterButton('Agree', 'btn btn-primary', (e) => {
     console.log("Bạn vừa bấm Đồng Ý!");
     // Có thể thực hiện gửi API, lưu dữ liệu ở đây
 });

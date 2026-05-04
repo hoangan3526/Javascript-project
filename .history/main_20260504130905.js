@@ -17,7 +17,7 @@ function Modal(options = {}) {
         this.addfooterButton = (title , cssClasses , callback) =>{
 
             this._footerbuttons.push({
-                title : title ,
+                title : title,
                 cssClasses : cssClasses,
                 callback : callback,
             });
@@ -80,7 +80,7 @@ function Modal(options = {}) {
 
             this._footerbuttons.forEach(btnConfig => {
                const btn = document.createElement("button");
-               btn.innerHTML = btnConfig.title  ;
+               btn.innerHTML = this._footerbuttons.title ;
 
                // Gán class (Kiểm tra kỹ lỡ người dùng truyền chuỗi rỗng)
                 if (btnConfig.cssClasses && btnConfig.cssClasses.trim() !== "") {
