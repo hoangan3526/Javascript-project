@@ -92,9 +92,6 @@ button {
 .no-scroll{
     overflow: hidden;
 }
-.btn.primary {
+.btn .primary {
     background-color: aqua;
-}
-.btn.change {
-    margin-right:auto ;
 }

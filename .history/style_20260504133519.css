@@ -84,17 +84,13 @@ button {
     overflow-y: auto;
 }
 .modal-footer {
-    display: flex;
-    justify-content: flex-end;
+    background-color: red;
     padding: 20px 0;
-    gap : 8px ;
 }
 .no-scroll{
     overflow: hidden;
 }
-.btn.primary {
-    background-color: aqua;
-}
-.btn.change {
-    margin-right:auto ;
+.btn {
+    display: flex ;
+    justify-content: flex-end;
 }

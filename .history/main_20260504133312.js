@@ -214,18 +214,13 @@ const modal3 = new Modal({
 });
 
 // Thêm nút Hủy
-modal3.addfooterButton('hehe', 'btn change', (e) => {
-    console.log("Bạn vừa bấm nút Hủy bỏ!");
-    modal3.close(); // Thường nút Cancel sẽ gọi lệnh đóng Modal
-}); 
-
-modal3.addfooterButton('Cancel', 'btn', (e) => {
+modal3.addfooterButton('Cancel', 'btn btn-secondary', (e) => {
     console.log("Bạn vừa bấm nút Hủy bỏ!");
     modal3.close(); // Thường nút Cancel sẽ gọi lệnh đóng Modal
 });
 
 // Thêm nút Đồng ý
-modal3.addfooterButton('Agree', 'btn primary', (e) => {
+modal3.addfooterButton('Agree', 'btn btn-primary', (e) => {
     console.log("Bạn vừa bấm Đồng Ý!");
     // Có thể thực hiện gửi API, lưu dữ liệu ở đây
 });

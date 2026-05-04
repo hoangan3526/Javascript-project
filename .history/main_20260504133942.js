@@ -214,7 +214,7 @@ const modal3 = new Modal({
 });
 
 // Thêm nút Hủy
-modal3.addfooterButton('hehe', 'btn change', (e) => {
+modal3.addfooterButton('hehe', 'btn', (e) => {
     console.log("Bạn vừa bấm nút Hủy bỏ!");
     modal3.close(); // Thường nút Cancel sẽ gọi lệnh đóng Modal
 }); 

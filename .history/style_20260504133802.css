@@ -87,14 +87,8 @@ button {
     display: flex;
     justify-content: flex-end;
     padding: 20px 0;
-    gap : 8px ;
+    gap : 8;
 }
 .no-scroll{
     overflow: hidden;
-}
-.btn.primary {
-    background-color: aqua;
-}
-.btn.change {
-    margin-right:auto ;
 }
