@@ -62,7 +62,7 @@ function Modal(options = {}) {
         modalContent.append(content);
         container.append(modalContent);
         if ( footer){
-           this._modalfooter = document.createElement("div");
+           this._this._modalfooter = document.createElement("div");
             this._modalfooter.className = "modal-footer";
             if(this._footerContent){
                 this._modalfooter.innerHTML = this._footerContent;

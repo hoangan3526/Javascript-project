@@ -62,12 +62,9 @@ function Modal(options = {}) {
         modalContent.append(content);
         container.append(modalContent);
         if ( footer){
-           this._modalfooter = document.createElement("div");
-            this._modalfooter.className = "modal-footer";
-            if(this._footerContent){
-                this._modalfooter.innerHTML = this._footerContent;
-            }
-            container.append(this._modalfooter);
+            const footerContent = document.createElement("div");
+            div.innerHTML = 'try hard';
+            modalContent.append(footerContent);
         }
         this._backdrop.append(container);
         document.body.append(this._backdrop);
@@ -112,12 +109,6 @@ function Modal(options = {}) {
 
         return this._backdrop;
     };
-    this.setFooterContent = html => {
-        this._footerContent = html;
-        if(this._modalfooter){
-            this._footerContent.innerHTML = html; 
-        }
-    }
     this._onTransitonEnd = (callback) => {
         this._backdrop.ontransitionend = (e) => {
             if( e.propertyName !== "transform" ) return ;
@@ -132,7 +123,6 @@ function Modal(options = {}) {
                 if (this._backdrop && destroy){
                     this._backdrop.remove();
                     this._backdrop = null;
-                    this._modalfooter = null;
                 }
     
                 // Enable scrolling
@@ -204,5 +194,4 @@ const modal3 = new Modal(
         }
     }
 );
-modal3.setFooterContent("<h2>Hello world </h2>")
 modal3.open();
