@@ -1,7 +1,6 @@
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
-Modal._elements = [];
 function Modal(options = {}) {
     const {
         templateId,
@@ -111,10 +110,8 @@ function Modal(options = {}) {
     };
 
     this.open = () => {
-        Modal._elements.push(this);
         if (!this._backdrop) {
             this._build();
-            
         }
 
         setTimeout(() => {
@@ -145,8 +142,7 @@ function Modal(options = {}) {
         return this._backdrop;
     };
     this._handelEscapeKey = (e) => {
-        const lastModal = Modal._elements[Modal._elements.length -1 ];
-                if (e.key === "Escape" && this === lastModal) {
+                if (e.key === "Escape") {
                     this.close();
                 }
     }
@@ -158,7 +154,6 @@ function Modal(options = {}) {
     };
 
     this.close = (destroy = destroyOnClose) => {
-        Modal._elements.pop();
         this._backdrop.classList.remove("show");
         if (this._allowEscapeClose) {
             document.removeEventListener("keydown", this._handelEscapeKey );
@@ -171,10 +166,8 @@ function Modal(options = {}) {
             }
 
             // Enable scrolling
-            if ( !Modal._elements.length){
-                document.body.classList.remove("no-scroll");
-                document.body.style.paddingRight = "";
-            }
+            document.body.classList.remove("no-scroll");
+            document.body.style.paddingRight = "";
 
             if (typeof onClose === "function") onClose();
         });

@@ -145,8 +145,7 @@ function Modal(options = {}) {
         return this._backdrop;
     };
     this._handelEscapeKey = (e) => {
-        const lastModal = Modal._elements[Modal._elements.length -1 ];
-                if (e.key === "Escape" && this === lastModal) {
+                if (e.key === "Escape") {
                     this.close();
                 }
     }
@@ -171,10 +170,8 @@ function Modal(options = {}) {
             }
 
             // Enable scrolling
-            if ( !Modal._elements.length){
-                document.body.classList.remove("no-scroll");
-                document.body.style.paddingRight = "";
-            }
+            document.body.classList.remove("no-scroll");
+            document.body.style.paddingRight = "";
 
             if (typeof onClose === "function") onClose();
         });

@@ -171,10 +171,8 @@ function Modal(options = {}) {
             }
 
             // Enable scrolling
-            if ( !Modal._elements.length){
-                document.body.classList.remove("no-scroll");
-                document.body.style.paddingRight = "";
-            }
+            document.body.classList.remove("no-scroll");
+            document.body.style.paddingRight = "";
 
             if (typeof onClose === "function") onClose();
         });

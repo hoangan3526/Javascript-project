@@ -1,7 +1,6 @@
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
-Modal._elements = [];
 function Modal(options = {}) {
     const {
         templateId,
@@ -111,10 +110,8 @@ function Modal(options = {}) {
     };
 
     this.open = () => {
-        Modal._elements.push(this);
         if (!this._backdrop) {
             this._build();
-            
         }
 
         setTimeout(() => {
@@ -135,7 +132,11 @@ function Modal(options = {}) {
         }
 
         if (this._allowEscapeClose) {
-            document.addEventListener("keydown", this._handelEscapeKey );
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") {
+                    this.close();
+                }
+            });
         }
 
         this._onTransitionEnd(() => {
@@ -144,12 +145,7 @@ function Modal(options = {}) {
 
         return this._backdrop;
     };
-    this._handelEscapeKey = (e) => {
-        const lastModal = Modal._elements[Modal._elements.length -1 ];
-                if (e.key === "Escape" && this === lastModal) {
-                    this.close();
-                }
-    }
+
     this._onTransitionEnd = (callback) => {
         this._backdrop.ontransitionend = (e) => {
             if (e.propertyName !== "transform") return;
@@ -158,11 +154,8 @@ function Modal(options = {}) {
     };
 
     this.close = (destroy = destroyOnClose) => {
-        Modal._elements.pop();
         this._backdrop.classList.remove("show");
-        if (this._allowEscapeClose) {
-            document.removeEventListener("keydown", this._handelEscapeKey );
-        }
+
         this._onTransitionEnd(() => {
             if (this._backdrop && destroy) {
                 this._backdrop.remove();
@@ -171,10 +164,8 @@ function Modal(options = {}) {
             }
 
             // Enable scrolling
-            if ( !Modal._elements.length){
-                document.body.classList.remove("no-scroll");
-                document.body.style.paddingRight = "";
-            }
+            document.body.classList.remove("no-scroll");
+            document.body.style.paddingRight = "";
 
             if (typeof onClose === "function") onClose();
         });
