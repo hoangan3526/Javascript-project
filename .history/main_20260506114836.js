@@ -250,7 +250,6 @@ $("#open-modal-2").onclick = () => {
 
 const modal3 = new Modal({
     templateId: "modal-3",
-    footer : true,
     closeMethods: ["escape"],
     
     onOpen: () => {

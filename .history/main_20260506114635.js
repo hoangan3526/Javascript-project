@@ -126,6 +126,20 @@ function Modal(options = {}) {
         if (this._modalFooter) {
             this._modalFooter.append(button); // Bơm thẳng lên màn hình ngay lập tức!
         } 
+        // Bonus (Tuyệt chiêu): Nếu người dùng lỡ quên truyền `footer: true` lúc new Modal
+        // nhưng lại gọi addFooterButton sau khi Modal đã mở
+        else if (this._backdrop) {
+            // Tự động tạo luôn thẻ Footer cho họ
+            this._modalFooter = document.createElement("div");
+            this._modalFooter.className = "modal-footer";
+            
+            // Tìm cái khung container trên màn hình và nhét footer vào
+            const container = this._backdrop.querySelector('.modal-container');
+            if (container) {
+                container.append(this._modalFooter);
+                this._modalFooter.append(button); // Xong rồi thì nhét nút vào
+            }
+        }
     };
 
     this.open = () => {
@@ -250,9 +264,8 @@ $("#open-modal-2").onclick = () => {
 
 const modal3 = new Modal({
     templateId: "modal-3",
-    footer : true,
     closeMethods: ["escape"],
-    
+    footer: ,
     onOpen: () => {
         console.log("Modal 3 opened");
     },
@@ -271,10 +284,10 @@ modal3.addFooterButton("Cancel", "modal-btn", (e) => {
     modal3.close();
 });
 
-$("#open-modal-3").onclick = () => {
-    modal3.open();
-}
 modal3.addFooterButton("<span>Agree</span>", "modal-btn primary", (e) => {
     // Something...
     modal3.close();
 });
+$("#open-modal-3").onclick = () => {
+    modal3.open();
+}

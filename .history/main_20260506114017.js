@@ -88,7 +88,9 @@ function Modal(options = {}) {
             if (this._footerContent) {
                 this._modalFooter.innerHTML = this._footerContent;
             }
-          
+            if (this._footerButton){
+                this._modalFooter.innerHTML = this._footerButton;
+            }
             
             this._footerButtons.forEach((button) => {
                 this._modalFooter.append(button);
@@ -108,24 +110,18 @@ function Modal(options = {}) {
         }
     };
 
+    this.setFooterButton = (button) => {
+        this._footerButton = button;
+         if (this._modalFooter) {
+            this._modalFooter.innerHTML = html;
+        }
+    }
 
     this._footerButtons = [];
 
-   this.addFooterButton = (title, cssClass, callback) => {
-        // 1. Dùng xưởng đúc ra cái nút
-        const button = this._createButton(title, cssClass, callback);
-        
-        // 2. Nhét vào kho lưu trữ (Để dành cho lần mở Modal tiếp theo nếu có)
+    this.addFooterButton = (title, cssClass, callback) => {
+        const button = this._createButton(title , cssClass , callback);
         this._footerButtons.push(button);
-
-        // ==========================================
-        // VÁ LỖI Ở ĐÂY: XỬ LÝ TRƯỜNG HỢP THÊM NÚT SAU KHI MODAL ĐÃ MỞ
-        // ==========================================
-        
-        // Nếu Modal đã có Footer (Tức là hàm build đã chạy)
-        if (this._modalFooter) {
-            this._modalFooter.append(button); // Bơm thẳng lên màn hình ngay lập tức!
-        } 
     };
 
     this.open = () => {
@@ -250,9 +246,8 @@ $("#open-modal-2").onclick = () => {
 
 const modal3 = new Modal({
     templateId: "modal-3",
-    footer : true,
     closeMethods: ["escape"],
-    
+    footer: true,
     onOpen: () => {
         console.log("Modal 3 opened");
     },
@@ -271,10 +266,10 @@ modal3.addFooterButton("Cancel", "modal-btn", (e) => {
     modal3.close();
 });
 
-$("#open-modal-3").onclick = () => {
-    modal3.open();
-}
 modal3.addFooterButton("<span>Agree</span>", "modal-btn primary", (e) => {
     // Something...
     modal3.close();
 });
+$("#open-modal-3").onclick = () => {
+    modal3.open();
+}
