@@ -85,7 +85,9 @@ function Modal(options = {}) {
             this._modalFooter = document.createElement("div");
             this._modalFooter.className = "modal-footer";
 
-           this._renderFooterContent();
+            if (this._footerContent) {
+                this._modalFooter.innerHTML = this._footerContent;
+            }
           
             
             this._renderButtons();
@@ -258,7 +260,7 @@ const modal3 = new Modal({
     },
 });
 
-modal3.setFooterContent("<h2>Footer content</h2>");
+// modal3.setFooterContent("<h2>Footer content</h2>");
 
 modal3.addFooterButton("Danger", "modal-btn danger pull-left", (e) => {
     alert("Danger clicked!");

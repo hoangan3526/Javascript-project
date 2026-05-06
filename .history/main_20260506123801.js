@@ -258,7 +258,7 @@ const modal3 = new Modal({
     },
 });
 
-modal3.setFooterContent("<h2>Footer content</h2>");
+// modal3.setFooterContent("<h2>Footer content</h2>");
 
 modal3.addFooterButton("Danger", "modal-btn danger pull-left", (e) => {
     alert("Danger clicked!");
