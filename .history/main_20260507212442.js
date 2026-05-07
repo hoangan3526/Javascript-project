@@ -3,41 +3,57 @@ const $$ = document.querySelectorAll.bind(document);
 
 Modal._elements = [];
 function Modal(options = {}) {
-   this._opt =  Object.assign({
-        // templateId,
-        destroyOnClose : true,
-        footer : false,
-        cssClass : [],
-        closeMethods : ["button", "overlay", "escape"],
-        // onOpen,
-        // onClose,
-    } , options);
-    this._template = $(`#${this._opt.templateId}`);
-    
-    if (!this._template) {
-        console.error(`#${this._opt.templateId} does not exist!`);
+    const {
+        templateId,
+        destroyOnClose = true,
+        footer = false,
+        cssClass = [],
+        closeMethods = ["button", "overlay", "escape"],
+        onOpen,
+        onClose,
+    } = options;
+    const template = $(`#${templateId}`);
+
+    if (!template) {
+        console.error(`#${templateId} does not exist!`);
         return;
     }
-    const  {closeMethods} = this._opt;
+    
     this._allowButtonClose = closeMethods.includes("button");
     this._allowBackdropClose = closeMethods.includes("overlay");
     this._allowEscapeClose = closeMethods.includes("escape");
-    this._footerButtons = [];
-    this._handelEscapeKey = this._handelEscapeKey.bind(this);
-}
-Modal.prototype._createButton = function(content , cssClass , callback ) {
+
+    this._getScrollbarWidth = () => {
+        if (this._scrollbarWidth) return this._scrollbarWidth;
+
+        const div = document.createElement("div");
+        Object.assign(div.style, {
+            overflow: "scroll",
+            position: "absolute",
+            top: "-9999px",
+        });
+
+        document.body.appendChild(div);
+        const scrollbarWidth = div.offsetWidth - div.clientWidth;
+        document.body.removeChild(div);
+
+        this.value = scrollbarWidth;
+
+        return scrollbarWidth;
+    }
+    this._createButton = (content , cssClass , callback ) => {
         const button = document.createElement("button");
-        if ( this._opt.cssClass) button.className = this._opt.cssClass;
+        if ( cssClass) button.className = cssClass;
         button.innerHTML = content;
         if ( typeof callback === "function"){
             button.onclick = callback;
         }
         return button;
     }
-Modal.prototype._build = function()  {
-        const content = this._template.content.cloneNode(true);
-       
-        
+
+    this._build = () => {
+        const content = template.content.cloneNode(true);
+
         // Create modal elements
         this._backdrop = document.createElement("div");
         this._backdrop.className = "modal-backdrop";
@@ -45,14 +61,14 @@ Modal.prototype._build = function()  {
         const container = document.createElement("div");
         container.className = "modal-container";
 
-        this._opt.cssClass.forEach((className) => {
+        cssClass.forEach((className) => {
             if (typeof className === "string") {
                 container.classList.add(className);
             }
         });
 
         if (this._allowButtonClose) {
-            const closeBtn = this._createButton("&times;" , "modal-close" ,  () => this.close())
+            const closeBtn = this._createButton("&times;" , "modal-close" ,  this.close)
 
             container.append(closeBtn);
            
@@ -65,7 +81,7 @@ Modal.prototype._build = function()  {
         modalContent.append(content);
         container.append(modalContent);
 
-        if (this._opt.footer) {
+        if (footer) {
             this._modalFooter = document.createElement("div");
             this._modalFooter.className = "modal-footer";
 
@@ -81,15 +97,15 @@ Modal.prototype._build = function()  {
         document.body.append(this._backdrop);
     };
 
-    Modal.prototype.setFooterContent = function(html)  {
+    this.setFooterContent = (html) => {
         this._footerContent = html;
         this._renderFooterContent();
     };
 
 
-    
+    this._footerButtons = [];
 
-Modal.prototype.addFooterButton = function (title, cssClass, callback) {
+   this.addFooterButton = (title, cssClass, callback) => {
         // 1. Dùng xưởng đúc ra cái nút
         const button = this._createButton(title, cssClass, callback);
     
@@ -100,17 +116,17 @@ Modal.prototype.addFooterButton = function (title, cssClass, callback) {
             this._renderButtons();
         } 
     };
-Modal.prototype._renderFooterContent = function()  {
+    this._renderFooterContent = () => {
         if (this._modalFooter) {
             this._modalFooter.innerHTML = this._footerContent;
         }
     }
-Modal.prototype._renderButtons = function()  {
+    this._renderButtons = () => {
         this._footerButtons.forEach((button) => {
                 this._modalFooter.append(button);
             });
     }
-Modal.prototype.open = function()  {
+    this.open = () => {
         Modal._elements.push(this);
         if (!this._backdrop) {
             this._build();
@@ -138,30 +154,27 @@ Modal.prototype.open = function()  {
             document.addEventListener("keydown", this._handelEscapeKey );
         }
 
-        this._onTransitionEnd( this._opt.onOpen
+        this._onTransitionEnd( onOpen
         );
 
         return this._backdrop;
     };
-Modal.prototype._handelEscapeKey = function(e)  {
+    this._handelEscapeKey = (e) => {
         const lastModal = Modal._elements[Modal._elements.length -1 ];
                 if (e.key === "Escape" && this === lastModal) {
                     this.close();
                 }
     }
-Modal.prototype._onTransitionEnd = function(callback)  {
+    this._onTransitionEnd = (callback) => {
         this._backdrop.ontransitionend = (e) => {
             if (e.propertyName !== "transform") return;
             if (typeof callback === "function") callback();
         };
     };
 
-Modal.prototype.close = function(destroy = this._opt.destroyOnClose){
+    this.close = (destroy = destroyOnClose) => {
         Modal._elements.pop();
-        
         this._backdrop.classList.remove("show");
-        
-        
         if (this._allowEscapeClose) {
             document.removeEventListener("keydown", this._handelEscapeKey );
         }
@@ -178,31 +191,15 @@ Modal.prototype.close = function(destroy = this._opt.destroyOnClose){
                 document.body.style.paddingRight = "";
             }
 
-            if (typeof this._opt.onClose === "function") this._opt.onClose();
+            if (typeof onClose === "function") onClose();
         });
-};
+    };
 
-Modal.prototype.destroy = function()  {
+    this.destroy = () => {
         this.close(true);
-};
-Modal.prototype._getScrollbarWidth = function(){
-        if (this._scrollbarWidth) return this._scrollbarWidth;
+    };
+}
 
-        const div = document.createElement("div");
-        Object.assign(div.style, {
-            overflow: "scroll",
-            position: "absolute",
-            top: "-9999px",
-        });
-
-        document.body.appendChild(div);
-        const scrollbarWidth = div.offsetWidth - div.clientWidth;
-        document.body.removeChild(div);
-
-        this._scrollbarWidth = scrollbarWidth;
-
-        return scrollbarWidth;
-    }
 const modal1 = new Modal({
     templateId: "modal-1",
     destroyOnClose: false,

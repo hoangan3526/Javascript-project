@@ -199,7 +199,7 @@ Modal.prototype._getScrollbarWidth = function(){
         const scrollbarWidth = div.offsetWidth - div.clientWidth;
         document.body.removeChild(div);
 
-        this._scrollbarWidth = scrollbarWidth;
+        this.value = scrollbarWidth;
 
         return scrollbarWidth;
     }

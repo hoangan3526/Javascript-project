@@ -3,7 +3,7 @@ const $$ = document.querySelectorAll.bind(document);
 
 Modal._elements = [];
 function Modal(options = {}) {
-   this._opt =  Object.assign({
+   this._otp =  Object.assign({
         // templateId,
         destroyOnClose : true,
         footer : false,
@@ -12,18 +12,21 @@ function Modal(options = {}) {
         // onOpen,
         // onClose,
     } , options);
-    this._template = $(`#${this._opt.templateId}`);
+    this._template = $(`#${this._otp.templateId}`);
     
     if (!this._template) {
-        console.error(`#${this._opt.templateId} does not exist!`);
+        console.error(`#${this._otp.templateId} does not exist!`);
         return;
     }
-    const  {closeMethods} = this._opt;
+    const {closeMethods} = this._opt;
     this._allowButtonClose = closeMethods.includes("button");
     this._allowBackdropClose = closeMethods.includes("overlay");
     this._allowEscapeClose = closeMethods.includes("escape");
     this._footerButtons = [];
-    this._handelEscapeKey = this._handelEscapeKey.bind(this);
+    
+    
+
+    
 }
 Modal.prototype._createButton = function(content , cssClass , callback ) {
         const button = document.createElement("button");
@@ -52,7 +55,7 @@ Modal.prototype._build = function()  {
         });
 
         if (this._allowButtonClose) {
-            const closeBtn = this._createButton("&times;" , "modal-close" ,  () => this.close())
+            const closeBtn = this._createButton("&times;" , "modal-close" ,  this.close)
 
             container.append(closeBtn);
            
@@ -89,7 +92,7 @@ Modal.prototype._build = function()  {
 
     
 
-Modal.prototype.addFooterButton = function (title, cssClass, callback) {
+Modal.prototype.addFooterButton = (title, cssClass, callback) => {
         // 1. Dùng xưởng đúc ra cái nút
         const button = this._createButton(title, cssClass, callback);
     
@@ -158,10 +161,7 @@ Modal.prototype._onTransitionEnd = function(callback)  {
 
 Modal.prototype.close = function(destroy = this._opt.destroyOnClose){
         Modal._elements.pop();
-        
         this._backdrop.classList.remove("show");
-        
-        
         if (this._allowEscapeClose) {
             document.removeEventListener("keydown", this._handelEscapeKey );
         }
@@ -178,7 +178,7 @@ Modal.prototype.close = function(destroy = this._opt.destroyOnClose){
                 document.body.style.paddingRight = "";
             }
 
-            if (typeof this._opt.onClose === "function") this._opt.onClose();
+            if (typeof onClose === "function") onClose();
         });
 };
 
@@ -199,7 +199,7 @@ Modal.prototype._getScrollbarWidth = function(){
         const scrollbarWidth = div.offsetWidth - div.clientWidth;
         document.body.removeChild(div);
 
-        this._scrollbarWidth = scrollbarWidth;
+        this.value = scrollbarWidth;
 
         return scrollbarWidth;
     }

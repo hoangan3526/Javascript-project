@@ -23,7 +23,6 @@ function Modal(options = {}) {
     this._allowBackdropClose = closeMethods.includes("overlay");
     this._allowEscapeClose = closeMethods.includes("escape");
     this._footerButtons = [];
-    this._handelEscapeKey = this._handelEscapeKey.bind(this);
 }
 Modal.prototype._createButton = function(content , cssClass , callback ) {
         const button = document.createElement("button");
@@ -199,7 +198,7 @@ Modal.prototype._getScrollbarWidth = function(){
         const scrollbarWidth = div.offsetWidth - div.clientWidth;
         document.body.removeChild(div);
 
-        this._scrollbarWidth = scrollbarWidth;
+        this.value = scrollbarWidth;
 
         return scrollbarWidth;
     }

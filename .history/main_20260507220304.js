@@ -23,7 +23,6 @@ function Modal(options = {}) {
     this._allowBackdropClose = closeMethods.includes("overlay");
     this._allowEscapeClose = closeMethods.includes("escape");
     this._footerButtons = [];
-    this._handelEscapeKey = this._handelEscapeKey.bind(this);
 }
 Modal.prototype._createButton = function(content , cssClass , callback ) {
         const button = document.createElement("button");
@@ -52,7 +51,7 @@ Modal.prototype._build = function()  {
         });
 
         if (this._allowButtonClose) {
-            const closeBtn = this._createButton("&times;" , "modal-close" ,  () => this.close())
+            const closeBtn = this._createButton("&times;" , "modal-close" ,  this.close)
 
             container.append(closeBtn);
            
@@ -158,10 +157,7 @@ Modal.prototype._onTransitionEnd = function(callback)  {
 
 Modal.prototype.close = function(destroy = this._opt.destroyOnClose){
         Modal._elements.pop();
-        
         this._backdrop.classList.remove("show");
-        
-        
         if (this._allowEscapeClose) {
             document.removeEventListener("keydown", this._handelEscapeKey );
         }
@@ -199,7 +195,7 @@ Modal.prototype._getScrollbarWidth = function(){
         const scrollbarWidth = div.offsetWidth - div.clientWidth;
         document.body.removeChild(div);
 
-        this._scrollbarWidth = scrollbarWidth;
+        this.value = scrollbarWidth;
 
         return scrollbarWidth;
     }
